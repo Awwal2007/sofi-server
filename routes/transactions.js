@@ -214,12 +214,7 @@ router.post('/transfer', auth, [
       
       // recipientExists.balance += netAmount;
       // await recipientExists.save();
-    } else if (completedTransfers === 1) {
-      transaction.status = 'pending';
-      // Balances not updated for pending transfers
-    } else {
-      transaction.status = 'pending';
-    }
+    } 
 
     await transaction.save();
 
