@@ -139,7 +139,7 @@ router.post('/transfer', auth, [
     });
 
     const todaysTotal = todaysTransfers.reduce((sum, t) => sum + t.amount, 0);
-    const dailyLimit = 10000; // $10,000 daily limit
+    const dailyLimit = 20000; // $10,000 daily limit
     
     if (todaysTotal + amount > dailyLimit) {
       return res.status(400).json({
@@ -204,6 +204,14 @@ router.post('/transfer', auth, [
       status: 'completed'
     });
 
+
+    // transaction.status = 'completed';
+    //   transaction.completedAt = new Date();
+      
+    //   // Update balances
+    //   user.balance -= amount;
+    //   await user.save();
+
     if (completedTransfers === 0) {
       transaction.status = 'completed';
       transaction.completedAt = new Date();
@@ -214,7 +222,12 @@ router.post('/transfer', auth, [
       
       // recipientExists.balance += netAmount;
       // await recipientExists.save();
-    } 
+    } else if (completedTransfers === 1) {
+      transaction.status = 'pending';
+      // Balances not updated for pending transfers
+    } else {
+      transaction.status = 'pending';
+    }
 
     await transaction.save();
 
