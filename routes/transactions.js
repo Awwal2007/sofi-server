@@ -49,7 +49,7 @@ router.get('/', auth, async (req, res) => {
       sort: { createdAt: -1 }
     };
 
-    const transactions = await Transaction.find();
+    const transactions = await Transaction.find(query);
 
     res.json({
       success: true,
